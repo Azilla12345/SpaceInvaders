@@ -1,16 +1,17 @@
 import javax.swing.*;
 
 public class MainFrame implements Runnable {
+
     private GraphicsPanel panel;
 
-    public MainFrame() {
-        JFrame frame = new JFrame("Intro to Animation");
+    public MainFrame(String name) {
+        JFrame frame = new JFrame("Super Mario Game");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setSize(500, 400);
-        frame.setLocation(300, 50);
+        frame.setSize(960, 580); // 540 height of image + 40 for window menu bar
+        frame.setLocationRelativeTo(null); // auto-centers frame in screen
 
         // create and add panel
-        panel = new GraphicsPanel();
+        panel = new GraphicsPanel(name);
         frame.add(panel);
 
         // display the frame
@@ -21,10 +22,9 @@ public class MainFrame implements Runnable {
         thread.start();
     }
 
-    // Runnable interface method
     public void run() {
         while (true) {
-            panel.repaint();  // we don't ever call paintComponent directly
+            panel.repaint();  // we don't ever call "paintComponent" directly, but call this to refresh the panel
         }
     }
 }
