@@ -29,6 +29,7 @@ public class Ship {
             System.out.println(e.getMessage());
         }
         health = 100;
+        weapon = new Weapon(1);
     }
 
     public int getxCoord() {
@@ -85,6 +86,14 @@ public class Ship {
         } else {
             faceRight();
         }
+    }
+
+    public void shoot() {
+
+    }
+
+    public int getWeaponType() {
+        return weapon.getType();
     }
 
     public void collectCoin() {

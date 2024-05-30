@@ -10,6 +10,7 @@ import java.util.ArrayList;
 public class GraphicsPanel extends JPanel implements KeyListener, MouseListener, ActionListener {
     private BufferedImage background;
     private Ship player;
+    private Weapon weapon;
     private boolean[] pressedKeys;
     private ArrayList<Coin> coins;
     private Timer timer;
@@ -17,11 +18,12 @@ public class GraphicsPanel extends JPanel implements KeyListener, MouseListener,
 
     public GraphicsPanel(String name) {
         try {
-            background = ImageIO.read(new File("src/background.png"));
+            background = ImageIO.read(new File("src/background.jpg"));
         } catch (IOException e) {
             System.out.println(e.getMessage());
         }
         player = new Ship("src/ShipPlaceholder.png", "src/ShipPlaceholder.png", name);
+        weapon = new Weapon(2);
         coins = new ArrayList<>();
         pressedKeys = new boolean[128];
         time = 0;
