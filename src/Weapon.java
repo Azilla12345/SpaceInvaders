@@ -5,7 +5,7 @@ public class Weapon {
     public Weapon(int type) {
         this.type = type;
 
-        if (type==1) {
+        if (type == 1) {
             damage = 10;
             attackSpeed = 10;
         }

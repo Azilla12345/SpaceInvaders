@@ -118,7 +118,9 @@ public class GraphicsPanel extends JPanel implements KeyListener, MouseListener,
 
     public void mouseEntered(MouseEvent e) { } // unimplemented
 
-    public void mouseExited(MouseEvent e) { } // unimplemented
+    public void mouseExited(MouseEvent e) {
+
+    } // unimplemented
 
     // ACTIONLISTENER INTERFACE METHODS: used for buttons AND timers!
     public void actionPerformed(ActionEvent e) {
