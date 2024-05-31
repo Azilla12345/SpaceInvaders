@@ -110,8 +110,8 @@ public class Ship {
 
     // we use a "bounding Rectangle" for detecting collision
     public Rectangle playerRect() {
-        int imageHeight = getPlayerImage().getHeight();
-        int imageWidth = getPlayerImage().getWidth();
+        int imageHeight = ((getPlayerImage().getHeight()));
+        int imageWidth = (getPlayerImage().getWidth());
         Rectangle rect = new Rectangle((int) xCoord, (int) yCoord, imageWidth, imageHeight);
         return rect;
     }

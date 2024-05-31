@@ -16,8 +16,8 @@ public class Alien {
     public Alien(int damage, int hp) {
         this.damage = damage;
         this.hp = hp;
-        Xvalue = 100;
-        Yvalue = 100;
+        Xvalue = 0;
+        Yvalue = 0;
         try {
             image = ImageIO.read(new File("src/aliens.png"));
         } catch (IOException e) {
