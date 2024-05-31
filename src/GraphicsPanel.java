@@ -10,9 +10,10 @@ import java.util.ArrayList;
 public class GraphicsPanel extends JPanel implements KeyListener, MouseListener, ActionListener {
     private BufferedImage background;
     private Ship player;
+    private Alien alien;
     private Weapon weapon;
     private boolean[] pressedKeys;
-    private ArrayList<Coin> coins;
+    private ArrayList<Laser> lasers;
     private Timer timer;
     private int time;
 
@@ -22,9 +23,10 @@ public class GraphicsPanel extends JPanel implements KeyListener, MouseListener,
         } catch (IOException e) {
             System.out.println(e.getMessage());
         }
-        player = new Ship("src/ShipPlaceholder.png", "src/ShipPlaceholder.png", name);
+        player = new Ship("src/Ship.png", "src/Ship.png", name);
+        alien = new Alien(5, 10);
         weapon = new Weapon(2);
-        coins = new ArrayList<>();
+        lasers = new ArrayList<Laser>();
         pressedKeys = new boolean[128];
         time = 0;
         timer = new Timer(1000, this); // this Timer will call the actionPerformed interface method every 1000ms = 1 second
@@ -40,16 +42,18 @@ public class GraphicsPanel extends JPanel implements KeyListener, MouseListener,
         super.paintComponent(g);  // just do this
         g.drawImage(background, 0, 0, null);  // the order that things get "painted" matter; we put background down first
         g.drawImage(player.getPlayerImage(), player.getxCoord(), player.getyCoord(), null);
+        g.drawImage(alien.getAlienImage(), alien.getXvalue(), alien.getYvalue(), null);
 
         // this loop does two things:  it draws each Coin that gets placed with mouse clicks,
         // and it also checks if the player has "intersected" (collided with) the Coin, and if so,
         // the score goes up and the Coin is removed from the arraylist
-        for (int i = 0; i < coins.size(); i++) {
-            Coin coin = coins.get(i);
-            g.drawImage(coin.getImage(), coin.getxCoord(), coin.getyCoord(), null); // draw Coin
-            if (player.playerRect().intersects(coin.coinRect())) { // check for collision
+        for (int i = 0; i < lasers.size(); i++) {
+            Laser laser = lasers.get(i);
+            g.drawImage(laser.getImage(), laser.getxCoord(), laser.getyCoord(), null); // draw Coin
+            laser.shoot();
+            if (alien.AlienRect().intersects(laser.laserRect())) { // check for collision
                 player.collectCoin();
-                coins.remove(i);
+                lasers.remove(i);
                 i--;
             }
         }
@@ -105,9 +109,12 @@ public class GraphicsPanel extends JPanel implements KeyListener, MouseListener,
 
     public void mouseReleased(MouseEvent e) {
         if (e.getButton() == MouseEvent.BUTTON1) {  // left mouse click
-            Point mouseClickLocation = e.getPoint();
-            Coin coin = new Coin(mouseClickLocation.x, mouseClickLocation.y);
-            coins.add(coin);
+            int tempX = player.getxCoord();
+            int tempY = player.getyCoord();
+            Laser laser = new Laser(tempX,tempY, 0);
+            laser.laserRect();
+            lasers.add(laser);
+            laser.shoot();
         } else {
             Point mouseClickLocation = e.getPoint();
             if (player.playerRect().contains(mouseClickLocation)) {
