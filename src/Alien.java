@@ -11,8 +11,6 @@ public class Alien {
     private int Yvalue;
     private BufferedImage image ;
 
-    String sprite;
-
     public Alien(int damage, int hp) {
         this.damage = damage;
         this.hp = hp;
@@ -52,4 +50,14 @@ public class Alien {
         Rectangle rect = new Rectangle(getXvalue(), getYvalue(), width, height);
         return rect;
     }
+
+    public void moveRight() {
+            Xvalue += 5;
+    }
+
+    public void moveLeft() {
+        Xvalue -= 5;
+    }
+
+
 }

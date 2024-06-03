@@ -16,6 +16,7 @@ public class GraphicsPanel extends JPanel implements KeyListener, MouseListener,
     private ArrayList<Laser> lasers;
     private Timer timer;
     private int time;
+    private boolean dead = false;
 
     public GraphicsPanel(String name) {
         try {
@@ -44,6 +45,8 @@ public class GraphicsPanel extends JPanel implements KeyListener, MouseListener,
         g.drawImage(player.getPlayerImage(), player.getxCoord(), player.getyCoord(), null);
         g.drawImage(alien.getAlienImage(), alien.getXvalue(), alien.getYvalue(), null);
 
+
+
         // this loop does two things:  it draws each Coin that gets placed with mouse clicks,
         // and it also checks if the player has "intersected" (collided with) the Coin, and if so,
         // the score goes up and the Coin is removed from the arraylist
@@ -53,10 +56,18 @@ public class GraphicsPanel extends JPanel implements KeyListener, MouseListener,
             laser.shoot();
             if (alien.AlienRect().intersects(laser.laserRect())) { // check for collision
                 player.collectCoin();
+                dead = true;
+                lasers.remove(i);
+                i--;
+
+            }
+            if (laser.getyCoord() <= 0) {
                 lasers.remove(i);
                 i--;
             }
         }
+
+
 
         // draw score
         g.setFont(new Font("Courier New", Font.BOLD, 24));
@@ -83,6 +94,12 @@ public class GraphicsPanel extends JPanel implements KeyListener, MouseListener,
         // player moves down (S)
         if (pressedKeys[83]) {
             player.moveDown();
+        }
+
+        if(alien.getXvalue() <= 0 + alien.getAlienImage().getWidth()) {
+            alien.moveRight();
+        } else if (alien.getXvalue() >= 1920 - alien.getAlienImage().getWidth()) {
+            alien.moveLeft();
         }
     }
 

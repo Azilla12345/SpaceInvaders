@@ -7,7 +7,7 @@ import java.io.IOException;
 public class Ship {
 
     private int health;
-    private final double MOVE_AMT = 1.2;
+    private final double MOVE_AMT = 5.0;
     private BufferedImage right;
     private BufferedImage left;
     private boolean facingRight;
@@ -57,7 +57,7 @@ public class Ship {
     }
 
     public void moveRight() {
-        if (xCoord + MOVE_AMT <= 920) {
+        if (xCoord + MOVE_AMT <= 1920 - right.getWidth()) {
             xCoord += MOVE_AMT;
         }
     }
@@ -75,7 +75,7 @@ public class Ship {
     }
 
     public void moveDown() {
-        if (yCoord + MOVE_AMT <= 435) {
+        if (yCoord + MOVE_AMT <= 1080 - right.getHeight()) {
             yCoord += MOVE_AMT;
         }
     }

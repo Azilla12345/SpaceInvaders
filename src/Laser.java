@@ -23,7 +23,7 @@ public class Laser {
 
     public void shoot() {
         if (Y >= maxHeight) {
-            Y--;
+            Y-= 20;
         }
     }
 
