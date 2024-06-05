@@ -11,11 +11,11 @@ public class Laser {
     private BufferedImage image;
 
     public Laser(double x, double y, int maxHeight) {
-        X = x;
-        Y = y;
+        X = x + 30;
+        Y = y-50;
         this.maxHeight = maxHeight;
         try {
-            image = ImageIO.read(new File("src/coin.png"));
+            image = ImageIO.read(new File("src/MissileSprite.png"));
         } catch (IOException e) {
             System.out.println(e.getMessage());
         }

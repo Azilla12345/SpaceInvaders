@@ -17,7 +17,7 @@ public class Alien {
         Xvalue = 0;
         Yvalue = 0;
         try {
-            image = ImageIO.read(new File("src/aliens.png"));
+            image = ImageIO.read(new File("src/AlienSprite.png"));
         } catch (IOException e) {
             System.out.println(e.getMessage());
         }
@@ -30,6 +30,10 @@ public class Alien {
 
     public void setHp(int x) {
         hp = x;
+    }
+
+    public int getHp() {
+        return hp;
     }
 
     public int getXvalue() {
@@ -52,12 +56,14 @@ public class Alien {
     }
 
     public void moveRight() {
-            Xvalue += 5;
+        Xvalue += 5;
     }
 
     public void moveLeft() {
-        Xvalue -= 5;
+     Xvalue -= 5;
     }
+
+
 
 
 }

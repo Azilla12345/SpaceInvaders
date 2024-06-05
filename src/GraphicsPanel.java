@@ -18,18 +18,23 @@ public class GraphicsPanel extends JPanel implements KeyListener, MouseListener,
     private int time;
     private boolean dead = false;
 
+    private boolean right;
+    private boolean left;
+
     public GraphicsPanel(String name) {
         try {
             background = ImageIO.read(new File("src/background.jpg"));
         } catch (IOException e) {
             System.out.println(e.getMessage());
         }
-        player = new Ship("src/Ship.png", "src/Ship.png", name);
+        player = new Ship("src/ShipSprite.png", "src/ShipSprite.png", name);
         alien = new Alien(5, 10);
         weapon = new Weapon(2);
         lasers = new ArrayList<Laser>();
         pressedKeys = new boolean[128];
         time = 0;
+        right = true;
+        left = false;
         timer = new Timer(1000, this); // this Timer will call the actionPerformed interface method every 1000ms = 1 second
         timer.start();
         addKeyListener(this);
@@ -96,10 +101,20 @@ public class GraphicsPanel extends JPanel implements KeyListener, MouseListener,
             player.moveDown();
         }
 
-        if(alien.getXvalue() <= 0 + alien.getAlienImage().getWidth()) {
+
+
+        if((right)) {
             alien.moveRight();
-        } else if (alien.getXvalue() >= 1920 - alien.getAlienImage().getWidth()) {
+            if (alien.getXvalue() >= 1920 - alien.getAlienImage().getWidth()) {
+                right = false;
+                left = true;
+            }
+        }else {
             alien.moveLeft();
+            if (alien.getXvalue() <= 0 ) {
+                right = true;
+                left = false;
+            }
         }
     }
 
