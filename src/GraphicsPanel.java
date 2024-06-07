@@ -14,6 +14,7 @@ public class GraphicsPanel extends JPanel implements KeyListener, MouseListener,
     private Weapon weapon;
     private boolean[] pressedKeys;
     private ArrayList<Laser> lasers;
+    private ArrayList<Alien> enemies;
     private Timer timer;
     private int time;
     private boolean dead = false;
@@ -31,6 +32,8 @@ public class GraphicsPanel extends JPanel implements KeyListener, MouseListener,
         alien = new Alien(5, 10);
         weapon = new Weapon(2);
         lasers = new ArrayList<Laser>();
+        enemies = new ArrayList<Alien>();
+        enemies.add(alien);
         pressedKeys = new boolean[128];
         time = 0;
         right = true;
@@ -64,7 +67,7 @@ public class GraphicsPanel extends JPanel implements KeyListener, MouseListener,
                 dead = true;
                 lasers.remove(i);
                 i--;
-
+                enemies.remove(0);
             }
             if (laser.getyCoord() <= 0) {
                 lasers.remove(i);
