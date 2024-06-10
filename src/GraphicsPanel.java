@@ -10,7 +10,9 @@ import java.util.ArrayList;
 public class GraphicsPanel extends JPanel implements KeyListener, MouseListener, ActionListener {
     private BufferedImage background;
     private Ship player;
-    private Alien alien;
+    private Alien alien1;
+    private Alien alien2;
+    private Alien alien3;
     private Weapon weapon;
     private boolean[] pressedKeys;
     private ArrayList<Laser> lasers;
@@ -20,7 +22,6 @@ public class GraphicsPanel extends JPanel implements KeyListener, MouseListener,
     private boolean dead = false;
 
     private boolean right;
-    private boolean left;
 
     public GraphicsPanel(String name) {
         try {
@@ -29,29 +30,98 @@ public class GraphicsPanel extends JPanel implements KeyListener, MouseListener,
             System.out.println(e.getMessage());
         }
         player = new Ship("src/ShipSprite.png", "src/ShipSprite.png", name);
-        alien = new Alien(5, 10);
         weapon = new Weapon(2);
+        alien1 = new Alien(5, 10);
+        alien2 = new Alien(5, 10);
+        alien2.setXvalue(400);
+        alien3 = new Alien(5, 10);
+        alien3.setXvalue(800);
         lasers = new ArrayList<Laser>();
         enemies = new ArrayList<Alien>();
-        enemies.add(alien);
         pressedKeys = new boolean[128];
         time = 0;
         right = true;
-        left = false;
         timer = new Timer(1000, this); // this Timer will call the actionPerformed interface method every 1000ms = 1 second
         timer.start();
         addKeyListener(this);
         addMouseListener(this);
         setFocusable(true); // this line of code + one below makes this panel active for keylistener events
         requestFocusInWindow(); // see comment above
+        int i = 0;
+        while (i != 5) {
+            Alien alien = new Alien(5, 10);
+            enemies.add(alien);
+            i++;
+        }
     }
 
     @Override
     public void paintComponent(Graphics g) {
+
+        enemies.add(alien1);
+        enemies.add(alien2);
+        enemies.add(alien3);
+        if (alien1.isDead())  {
+            alien1.setXvalue(1920);
+        } else {
+            if ((alien1.isRight())) {
+                alien1.moveRight();
+                if (alien1.getXvalue() >= 1920 - alien1.getAlienImage().getWidth()) {
+                    alien1.setRight(false);
+                }
+            } else {
+                alien1.moveLeft();
+                if (alien1.getXvalue() <= 0) {
+                    alien1.setRight(true);
+                }
+            }
+        }if (alien2.isDead()) {
+            alien2.setXvalue(1920);
+        } else {
+            if ((alien2.isRight())) {
+                alien2.moveRight();
+                if (alien2.getXvalue() >= 1920 - alien2.getAlienImage().getWidth()) {
+                    alien2.setRight(false);
+                }
+            } else {
+                alien2.moveLeft();
+                if (alien2.getXvalue() <= 0) {
+                    alien2.setRight(true);
+                }
+            }
+        }
+        if (alien3.isDead()) {
+            alien3.setXvalue(1920);
+        } else {
+            if ((alien3.isRight())) {
+                alien3.moveRight();
+                if (alien3.getXvalue() >= 1920 - alien3.getAlienImage().getWidth()) {
+                    alien3.setRight(false);
+                }
+            } else {
+                alien3.moveLeft();
+                if (alien3.getXvalue() <= 0) {
+                    alien3.setRight(true);
+                }
+            }
+        }
         super.paintComponent(g);  // just do this
         g.drawImage(background, 0, 0, null);  // the order that things get "painted" matter; we put background down first
         g.drawImage(player.getPlayerImage(), player.getxCoord(), player.getyCoord(), null);
-        g.drawImage(alien.getAlienImage(), alien.getXvalue(), alien.getYvalue(), null);
+        if (!(alien1.isDead())) {
+            g.drawImage(alien1.getAlienImage(), alien1.getXvalue(), alien1.getYvalue(), null);
+        }else {
+            enemies.remove(alien1);
+        }
+        if (!(alien2.isDead())) {
+            g.drawImage(alien2.getAlienImage(), alien2.getXvalue(), alien2.getYvalue(), null);
+        }
+        if (!(alien3.isDead())) {
+            g.drawImage(alien3.getAlienImage(), alien3.getXvalue(), alien3.getYvalue(), null);
+        }
+
+
+
 
 
 
@@ -62,12 +132,28 @@ public class GraphicsPanel extends JPanel implements KeyListener, MouseListener,
             Laser laser = lasers.get(i);
             g.drawImage(laser.getImage(), laser.getxCoord(), laser.getyCoord(), null); // draw Coin
             laser.shoot();
-            if (alien.AlienRect().intersects(laser.laserRect())) { // check for collision
+            if (alien1.AlienRect().intersects(laser.laserRect())) { // check for collision
                 player.collectCoin();
                 dead = true;
                 lasers.remove(i);
+                alien1.setDead(true);
+                enemies.remove(alien1);
                 i--;
-                enemies.remove(0);
+            }
+            if (alien2.AlienRect().intersects(laser.laserRect())) { // check for collision
+                player.collectCoin();
+                dead = true;
+                lasers.remove(i);
+                alien2.setDead(true);
+                enemies.remove(alien2);
+                i--;
+            }
+            if (alien3.AlienRect().intersects(laser.laserRect())) { // check for collision
+                player.collectCoin();
+                dead = true;
+                lasers.remove(i);
+                alien3.setDead(true);
+                i--;
             }
             if (laser.getyCoord() <= 0) {
                 lasers.remove(i);
@@ -106,19 +192,7 @@ public class GraphicsPanel extends JPanel implements KeyListener, MouseListener,
 
 
 
-        if((right)) {
-            alien.moveRight();
-            if (alien.getXvalue() >= 1920 - alien.getAlienImage().getWidth()) {
-                right = false;
-                left = true;
-            }
-        }else {
-            alien.moveLeft();
-            if (alien.getXvalue() <= 0 ) {
-                right = true;
-                left = false;
-            }
-        }
+
     }
 
     // ----- KeyListener interface methods -----

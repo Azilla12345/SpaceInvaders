@@ -10,12 +10,17 @@ public class Alien {
     private int Xvalue;
     private int Yvalue;
     private BufferedImage image ;
+    private boolean right;
+
+    private boolean isDead;
 
     public Alien(int damage, int hp) {
         this.damage = damage;
         this.hp = hp;
         Xvalue = 0;
         Yvalue = 0;
+        right = true;
+        isDead = false;
         try {
             image = ImageIO.read(new File("src/AlienSprite.png"));
         } catch (IOException e) {
@@ -34,6 +39,9 @@ public class Alien {
 
     public int getHp() {
         return hp;
+    }
+    public void setXvalue(int xvalue) {
+        Xvalue = xvalue;
     }
 
     public int getXvalue() {
@@ -63,7 +71,19 @@ public class Alien {
      Xvalue -= 5;
     }
 
+    public boolean isRight() {
+        return right;
+    }
 
+    public void setRight(boolean enter) {
+        right =enter;
+    }
 
+    public boolean isDead() {
+        return isDead;
+    }
 
+    public void setDead(boolean dead) {
+        isDead = dead;
+    }
 }
