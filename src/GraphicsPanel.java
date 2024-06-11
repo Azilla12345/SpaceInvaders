@@ -13,13 +13,19 @@ public class GraphicsPanel extends JPanel implements KeyListener, MouseListener,
     private Alien alien1;
     private Alien alien2;
     private Alien alien3;
+    private Alien alien4;
+    private Alien alien5;
+    private Alien alien6;
+    private Alien alien7;
+    private Alien alien8;
+    private Alien alien9;
     private Weapon weapon;
     private boolean[] pressedKeys;
     private ArrayList<Laser> lasers;
     private ArrayList<Alien> enemies;
     private Timer timer;
     private int time;
-    private boolean dead = false;
+    private boolean dead;
 
     private boolean right;
 
@@ -36,6 +42,12 @@ public class GraphicsPanel extends JPanel implements KeyListener, MouseListener,
         alien2.setXvalue(400);
         alien3 = new Alien(5, 10);
         alien3.setXvalue(800);
+        alien4 = new Alien(4,10);
+        alien5 = new Alien(4, 10);
+        alien6 = new Alien(5, 10);
+        alien7 = new Alien(4, 20);
+        alien8 = new Alien(4, 20);
+        alien9 = new Alien(6, 90);
         lasers = new ArrayList<Laser>();
         enemies = new ArrayList<Alien>();
         pressedKeys = new boolean[128];
@@ -58,9 +70,7 @@ public class GraphicsPanel extends JPanel implements KeyListener, MouseListener,
     @Override
     public void paintComponent(Graphics g) {
 
-        enemies.add(alien1);
-        enemies.add(alien2);
-        enemies.add(alien3);
+
         if (alien1.isDead())  {
             alien1.setXvalue(1920);
         } else {
@@ -105,19 +115,119 @@ public class GraphicsPanel extends JPanel implements KeyListener, MouseListener,
                 }
             }
         }
+        if ((alien4.isDead())|| !(alien1.isDead()))  {
+            alien4.setXvalue(1920);
+        } else {
+            if ((alien4.isRight())) {
+                alien4.moveRight();
+                if (alien4.getXvalue() >= 1920 - alien4.getAlienImage().getWidth()) {
+                    alien4.setRight(false);
+                }
+            } else {
+                alien4.moveLeft();
+                if (alien4.getXvalue() <= 0) {
+                    alien4.setRight(true);
+                }
+            }
+        }if ((alien5.isDead()||!(alien1.isDead()))) {
+            alien5.setXvalue(1920);
+        } else {
+            if ((alien5.isRight())) {
+                alien5.moveRight();
+                if (alien5.getXvalue() >= 1920 - alien5.getAlienImage().getWidth()) {
+                    alien5.setRight(false);
+                }
+            } else {
+                alien5.moveLeft();
+                if (alien5.getXvalue() <= 0) {
+                    alien5.setRight(true);
+                }
+            }
+        }
+        if ((alien6.isDead())||!(alien2.isDead())) {
+            alien6.setXvalue(1920);
+        } else {
+            if ((alien6.isRight())) {
+                alien6.moveRight();
+                if (alien6.getXvalue() >= 1920 - alien6.getAlienImage().getWidth()) {
+                    alien6.setRight(false);
+                }
+            } else {
+                alien6.moveLeft();
+                if (alien6.getXvalue() <= 0) {
+                    alien6.setRight(true);
+                }
+            }
+        }
+        if ((alien7.isDead())|| !(alien2.isDead()))  {
+            alien7.setXvalue(1920);
+        } else {
+            if ((alien7.isRight())) {
+                alien7.moveRight();
+                if (alien7.getXvalue() >= 1920 - alien7.getAlienImage().getWidth()) {
+                    alien7.setRight(false);
+                }
+            } else {
+                alien7.moveLeft();
+                if (alien7.getXvalue() <= 0) {
+                    alien7.setRight(true);
+                }
+            }
+        }if ((alien8.isDead()) ||!(alien3.isDead())){
+            alien8.setXvalue(1920);
+        } else {
+            if ((alien8.isRight())) {
+                alien8.moveRight();
+                if (alien8.getXvalue() >= 1920 - alien8.getAlienImage().getWidth()) {
+                    alien8.setRight(false);
+                }
+            } else {
+                alien8.moveLeft();
+                if (alien8.getXvalue() <= 0) {
+                    alien8.setRight(true);
+                }
+            }
+        }
+        if ((alien9.isDead()) || !(alien3.isDead())){
+            alien9.setXvalue(1920);
+        } else {
+            if ((alien9.isRight())) {
+                alien9.moveRight();
+                if (alien9.getXvalue() >= 1920 - alien9.getAlienImage().getWidth()) {
+                    alien9.setRight(false);
+                }
+            } else {
+                alien9.moveLeft();
+                if (alien9.getXvalue() <= 0) {
+                    alien9.setRight(true);
+                }
+            }
+        }
+
+
+
+
         super.paintComponent(g);  // just do this
         g.drawImage(background, 0, 0, null);  // the order that things get "painted" matter; we put background down first
         g.drawImage(player.getPlayerImage(), player.getxCoord(), player.getyCoord(), null);
         if (!(alien1.isDead())) {
             g.drawImage(alien1.getAlienImage(), alien1.getXvalue(), alien1.getYvalue(), null);
         }else {
-            enemies.remove(alien1);
+            g.drawImage(alien4.getAlienImage(), alien4.getXvalue(), alien4.getYvalue(), null);
+            g.drawImage(alien5.getAlienImage(), alien5.getXvalue(), alien5.getYvalue(), null);
         }
         if (!(alien2.isDead())) {
             g.drawImage(alien2.getAlienImage(), alien2.getXvalue(), alien2.getYvalue(), null);
+        } else {
+            g.drawImage(alien6.getAlienImage(), alien6.getXvalue(), alien6.getYvalue(), null);
+            g.drawImage(alien7.getAlienImage(), alien7.getXvalue(), alien7.getYvalue(), null);
         }
+
         if (!(alien3.isDead())) {
             g.drawImage(alien3.getAlienImage(), alien3.getXvalue(), alien3.getYvalue(), null);
+        } else {
+            g.drawImage(alien8.getAlienImage(), alien8.getXvalue(), alien8.getYvalue(), null);
+            g.drawImage(alien9.getAlienImage(), alien9.getXvalue(), alien9.getYvalue(), null);
         }
 
 
@@ -137,7 +247,6 @@ public class GraphicsPanel extends JPanel implements KeyListener, MouseListener,
                 dead = true;
                 lasers.remove(i);
                 alien1.setDead(true);
-                enemies.remove(alien1);
                 i--;
             }
             if (alien2.AlienRect().intersects(laser.laserRect())) { // check for collision
@@ -145,7 +254,6 @@ public class GraphicsPanel extends JPanel implements KeyListener, MouseListener,
                 dead = true;
                 lasers.remove(i);
                 alien2.setDead(true);
-                enemies.remove(alien2);
                 i--;
             }
             if (alien3.AlienRect().intersects(laser.laserRect())) { // check for collision
@@ -153,6 +261,50 @@ public class GraphicsPanel extends JPanel implements KeyListener, MouseListener,
                 dead = true;
                 lasers.remove(i);
                 alien3.setDead(true);
+                i--;
+            }
+            if (alien4.AlienRect().intersects(laser.laserRect())) { // check for collision
+                player.collectCoin();
+                dead = true;
+                lasers.remove(i);
+                alien4.setDead(true);
+                i--;
+            }
+            if (alien5.AlienRect().intersects(laser.laserRect())) { // check for collision
+                player.collectCoin();
+                dead = true;
+                lasers.remove(i);
+                alien5.setDead(true);
+                i--;
+            }
+            if (alien6.AlienRect().intersects(laser.laserRect())) { // check for collision
+                player.collectCoin();
+                dead = true;
+                lasers.remove(i);
+                alien6.setDead(true);
+                i--;
+            }
+            if (alien7.AlienRect().intersects(laser.laserRect())) { // check for collision
+                player.collectCoin();
+                dead = true;
+                lasers.remove(i);
+                alien7.setDead(true);
+                enemies.remove(alien7);
+                i--;
+            }
+            if (alien8.AlienRect().intersects(laser.laserRect())) { // check for collision
+                player.collectCoin();
+                dead = true;
+                lasers.remove(i);
+                alien8.setDead(true);
+                enemies.remove(alien8);
+                i--;
+            }
+            if (alien9.AlienRect().intersects(laser.laserRect())) { // check for collision
+                player.collectCoin();
+                dead = true;
+                lasers.remove(i);
+                alien9.setDead(true);
                 i--;
             }
             if (laser.getyCoord() <= 0) {
