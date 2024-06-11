@@ -19,12 +19,15 @@ public class GraphicsPanel extends JPanel implements KeyListener, MouseListener,
     private Alien alien7;
     private Alien alien8;
     private Alien alien9;
-    private Weapon weapon;
+
     private boolean[] pressedKeys;
     private ArrayList<Laser> lasers;
     private ArrayList<Alien> enemies;
     private Timer timer;
     private int time;
+
+    private Timer recharger;
+    private int charge = 3;
 
 
     public GraphicsPanel(String name) {
@@ -34,7 +37,6 @@ public class GraphicsPanel extends JPanel implements KeyListener, MouseListener,
             System.out.println(e.getMessage());
         }
         player = new Ship("src/ShipSprite.png", "src/ShipSprite.png", name);
-        weapon = new Weapon(2);
         alien1 = new Alien(5, 10);
         alien2 = new Alien(5, 10);
         alien2.setXvalue(400);
@@ -50,26 +52,29 @@ public class GraphicsPanel extends JPanel implements KeyListener, MouseListener,
         enemies = new ArrayList<Alien>();
         pressedKeys = new boolean[128];
         time = 0;
+        recharger = new Timer(1000, this);
         timer = new Timer(1000, this); // this Timer will call the actionPerformed interface method every 1000ms = 1 second
         timer.start();
         addKeyListener(this);
         addMouseListener(this);
         setFocusable(true); // this line of code + one below makes this panel active for keylistener events
         requestFocusInWindow(); // see comment above
-        int i = 0;
-        while (i != 5) {
-            Alien alien = new Alien(5, 10);
-            enemies.add(alien);
-            i++;
-        }
+        enemies.add(alien1);
+        enemies.add(alien2);
+        enemies.add(alien3);
+        enemies.add(alien4);
+        enemies.add(alien5);
+        enemies.add(alien6);
+        enemies.add(alien7);
+        enemies.add(alien8);
+        enemies.add(alien9);
     }
 
     @Override
     public void paintComponent(Graphics g) {
-
-
         if (alien1.isDead())  {
             alien1.setXvalue(1920);
+            enemies.remove(alien1);
         } else {
             if ((alien1.isRight())) {
                 alien1.moveRight();
@@ -84,6 +89,7 @@ public class GraphicsPanel extends JPanel implements KeyListener, MouseListener,
             }
         }if (alien2.isDead()) {
             alien2.setXvalue(1920);
+            enemies.remove(alien2);
         } else {
             if ((alien2.isRight())) {
                 alien2.moveRight();
@@ -99,6 +105,7 @@ public class GraphicsPanel extends JPanel implements KeyListener, MouseListener,
         }
         if (alien3.isDead()) {
             alien3.setXvalue(1920);
+            enemies.remove(alien3);
         } else {
             if ((alien3.isRight())) {
                 alien3.moveRight();
@@ -287,6 +294,7 @@ public class GraphicsPanel extends JPanel implements KeyListener, MouseListener,
             if (alien4.AlienRect().intersects(laser.laserRect())) { // check for collision
                 player.collectCoin();
                 lasers.remove(i);
+                enemies.remove(alien4);
                 alien4.setDead(true);
                 i--;
             }
@@ -294,12 +302,14 @@ public class GraphicsPanel extends JPanel implements KeyListener, MouseListener,
                 player.collectCoin();
                 lasers.remove(i);
                 alien5.setDead(true);
+                enemies.remove(alien5);
                 i--;
             }
             if (alien6.AlienRect().intersects(laser.laserRect())) { // check for collision
                 player.collectCoin();
                 lasers.remove(i);
                 alien6.setDead(true);
+                enemies.remove(alien6);
                 i--;
             }
             if (alien7.AlienRect().intersects(laser.laserRect())) { // check for collision
@@ -320,6 +330,7 @@ public class GraphicsPanel extends JPanel implements KeyListener, MouseListener,
                 player.collectCoin();
                 lasers.remove(i);
                 alien9.setDead(true);
+                enemies.remove(alien9);
                 i--;
             }
             if (laser.getyCoord() <= 0) {
@@ -332,8 +343,8 @@ public class GraphicsPanel extends JPanel implements KeyListener, MouseListener,
 
         // draw score
         g.setFont(new Font("Courier New", Font.BOLD, 24));
-        g.drawString(player.getName() + "'s Score: " + player.getScore(), 20, 40);
-        g.drawString("Time: " + time, 20, 70);
+        g.drawString("ships left to destroy: " + enemies.size(), 20, 40);
+        g.drawString("Time: " + (60 - time), 20, 70);
 
         // player moves left (A)
         if (pressedKeys[65]) {
@@ -356,10 +367,6 @@ public class GraphicsPanel extends JPanel implements KeyListener, MouseListener,
         if (pressedKeys[83]) {
             player.moveDown();
         }
-
-
-
-
     }
 
     // ----- KeyListener interface methods -----
@@ -384,6 +391,7 @@ public class GraphicsPanel extends JPanel implements KeyListener, MouseListener,
     public void mousePressed(MouseEvent e) { } // unimplemented
 
     public void mouseReleased(MouseEvent e) {
+
         if (e.getButton() == MouseEvent.BUTTON1) {  // left mouse click
             int tempX = player.getxCoord();
             int tempY = player.getyCoord();
