@@ -6,28 +6,30 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 
 public class GraphicsPanel extends JPanel implements KeyListener, MouseListener, ActionListener {
     private BufferedImage background;
-    private Ship player;
-    private Alien alien1;
-    private Alien alien2;
-    private Alien alien3;
-    private Alien alien4;
-    private Alien alien5;
-    private Alien alien6;
-    private Alien alien7;
-    private Alien alien8;
-    private Alien alien9;
+    private final Ship player;
+    private final Alien alien1;
+    private final Alien alien2;
+    private final Alien alien3;
+    private final Alien alien4;
+    private final Alien alien5;
+    private final Alien alien6;
+    private final Alien alien7;
+    private final Alien alien8;
+    private final Alien alien9;
 
-    private boolean[] pressedKeys;
-    private ArrayList<Laser> lasers;
-    private ArrayList<Alien> enemies;
-    private Timer timer;
+    private final boolean[] pressedKeys;
+    private final ArrayList<Laser> lasers;
+    private final ArrayList<Alien> enemies;
+    private final Timer timer;
     private int time;
 
-    private Timer recharger;
-    private int charge = 3;
+
 
 
     public GraphicsPanel(String name) {
@@ -52,7 +54,6 @@ public class GraphicsPanel extends JPanel implements KeyListener, MouseListener,
         enemies = new ArrayList<Alien>();
         pressedKeys = new boolean[128];
         time = 0;
-        recharger = new Timer(1000, this);
         timer = new Timer(1000, this); // this Timer will call the actionPerformed interface method every 1000ms = 1 second
         timer.start();
         addKeyListener(this);
@@ -68,6 +69,7 @@ public class GraphicsPanel extends JPanel implements KeyListener, MouseListener,
         enemies.add(alien7);
         enemies.add(alien8);
         enemies.add(alien9);
+        lasers.add(new Laser(0,0,0));
     }
 
     @Override
@@ -234,11 +236,6 @@ public class GraphicsPanel extends JPanel implements KeyListener, MouseListener,
             g.drawImage(alien9.getAlienImage(), alien9.getXvalue(), alien9.getYvalue(), null);
         }
 
-
-
-
-
-
         // this loop does two things:  it draws each Coin that gets placed with mouse clicks,
         // and it also checks if the player has "intersected" (collided with) the Coin, and if so,
         // the score goes up and the Coin is removed from the arraylist
@@ -344,7 +341,7 @@ public class GraphicsPanel extends JPanel implements KeyListener, MouseListener,
         // draw score
         g.setFont(new Font("Courier New", Font.BOLD, 24));
         g.drawString("ships left to destroy: " + enemies.size(), 20, 40);
-        g.drawString("Time: " + (60 - time), 20, 70);
+        g.drawString("Time: " + (15 - time), 20, 70);
 
         // player moves left (A)
         if (pressedKeys[65]) {
@@ -366,6 +363,22 @@ public class GraphicsPanel extends JPanel implements KeyListener, MouseListener,
         // player moves down (S)
         if (pressedKeys[83]) {
             player.moveDown();
+        }
+
+        if (15 - time == 0) {
+            timer.stop();
+            g.setFont(new Font("Courier New", Font.BOLD, 90));
+            g.drawString("You failed to save Earth!" , 0, 440);
+            g.drawString("You had: " + enemies.size() + " ships left", 0, 540);
+
+
+        }
+
+        if (enemies.isEmpty()) {
+            timer.stop();
+            g.setFont(new Font("Courier New", Font.BOLD, 90));
+            g.drawString("Congrats, you saved Earth!" , 0, 440);
+            g.drawString("You had: " + (15 - time) + " seconds left!", 0, 540);
         }
     }
 
@@ -391,21 +404,20 @@ public class GraphicsPanel extends JPanel implements KeyListener, MouseListener,
     public void mousePressed(MouseEvent e) { } // unimplemented
 
     public void mouseReleased(MouseEvent e) {
-
         if (e.getButton() == MouseEvent.BUTTON1) {  // left mouse click
-            int tempX = player.getxCoord();
-            int tempY = player.getyCoord();
-            Laser laser = new Laser(tempX,tempY, 0);
-            laser.laserRect();
-            lasers.add(laser);
-            laser.shoot();
-        } else {
-            Point mouseClickLocation = e.getPoint();
-            if (player.playerRect().contains(mouseClickLocation)) {
-                player.turn();
+                int tempX = player.getxCoord();
+                int tempY = player.getyCoord();
+                Laser laser = new Laser(tempX, tempY, 0);
+                laser.laserRect();
+                lasers.add(laser);
+                laser.shoot();
+            } else {
+                Point mouseClickLocation = e.getPoint();
+                if (player.playerRect().contains(mouseClickLocation)) {
+                    player.turn();
+                }
             }
         }
-    }
 
     public void mouseEntered(MouseEvent e) { } // unimplemented
 
@@ -419,4 +431,5 @@ public class GraphicsPanel extends JPanel implements KeyListener, MouseListener,
             time++;
         }
     }
+
 }
