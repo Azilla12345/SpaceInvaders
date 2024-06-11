@@ -25,9 +25,7 @@ public class GraphicsPanel extends JPanel implements KeyListener, MouseListener,
     private ArrayList<Alien> enemies;
     private Timer timer;
     private int time;
-    private boolean dead;
 
-    private boolean right;
 
     public GraphicsPanel(String name) {
         try {
@@ -52,7 +50,6 @@ public class GraphicsPanel extends JPanel implements KeyListener, MouseListener,
         enemies = new ArrayList<Alien>();
         pressedKeys = new boolean[128];
         time = 0;
-        right = true;
         timer = new Timer(1000, this); // this Timer will call the actionPerformed interface method every 1000ms = 1 second
         timer.start();
         addKeyListener(this);
@@ -244,7 +241,6 @@ public class GraphicsPanel extends JPanel implements KeyListener, MouseListener,
             laser.shoot();
             if (alien1.AlienRect().intersects(laser.laserRect())) { // check for collision
                 player.collectCoin();
-                dead = true;
                 lasers.remove(i);
                 if ((alien1.getXvalue() >= 1920 + 400)) {
                     alien4.setXvalue(alien1.getXvalue());
@@ -260,7 +256,6 @@ public class GraphicsPanel extends JPanel implements KeyListener, MouseListener,
             }
             if (alien2.AlienRect().intersects(laser.laserRect())) { // check for collision
                 player.collectCoin();
-                dead = true;
                 lasers.remove(i);
                 if ((alien2.getXvalue() >= 1920 + 400)) {
                     alien6.setXvalue(alien2.getXvalue());
@@ -276,7 +271,6 @@ public class GraphicsPanel extends JPanel implements KeyListener, MouseListener,
             }
             if (alien3.AlienRect().intersects(laser.laserRect())) { // check for collision
                 player.collectCoin();
-                dead = true;
                 lasers.remove(i);
                 if ((alien3.getXvalue() >= 1920 + 400)) {
                     alien8.setXvalue(alien3.getXvalue());
@@ -292,28 +286,24 @@ public class GraphicsPanel extends JPanel implements KeyListener, MouseListener,
             }
             if (alien4.AlienRect().intersects(laser.laserRect())) { // check for collision
                 player.collectCoin();
-                dead = true;
                 lasers.remove(i);
                 alien4.setDead(true);
                 i--;
             }
             if (alien5.AlienRect().intersects(laser.laserRect())) { // check for collision
                 player.collectCoin();
-                dead = true;
                 lasers.remove(i);
                 alien5.setDead(true);
                 i--;
             }
             if (alien6.AlienRect().intersects(laser.laserRect())) { // check for collision
                 player.collectCoin();
-                dead = true;
                 lasers.remove(i);
                 alien6.setDead(true);
                 i--;
             }
             if (alien7.AlienRect().intersects(laser.laserRect())) { // check for collision
                 player.collectCoin();
-                dead = true;
                 lasers.remove(i);
                 alien7.setDead(true);
                 enemies.remove(alien7);
@@ -321,7 +311,6 @@ public class GraphicsPanel extends JPanel implements KeyListener, MouseListener,
             }
             if (alien8.AlienRect().intersects(laser.laserRect())) { // check for collision
                 player.collectCoin();
-                dead = true;
                 lasers.remove(i);
                 alien8.setDead(true);
                 enemies.remove(alien8);
@@ -329,7 +318,6 @@ public class GraphicsPanel extends JPanel implements KeyListener, MouseListener,
             }
             if (alien9.AlienRect().intersects(laser.laserRect())) { // check for collision
                 player.collectCoin();
-                dead = true;
                 lasers.remove(i);
                 alien9.setDead(true);
                 i--;
