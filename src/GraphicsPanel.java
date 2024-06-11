@@ -246,6 +246,15 @@ public class GraphicsPanel extends JPanel implements KeyListener, MouseListener,
                 player.collectCoin();
                 dead = true;
                 lasers.remove(i);
+                if ((alien1.getXvalue() >= 1920 + 400)) {
+                    alien4.setXvalue(alien1.getXvalue());
+                    if (alien4.getXvalue() <= 1000) {
+                        alien5.setXvalue(alien1.getXvalue());
+                    }
+                } else {
+                    alien4.setXvalue(alien1.getXvalue()+100);
+                    alien5.setXvalue(alien1.getXvalue()+400);
+                }
                 alien1.setDead(true);
                 i--;
             }
@@ -253,6 +262,15 @@ public class GraphicsPanel extends JPanel implements KeyListener, MouseListener,
                 player.collectCoin();
                 dead = true;
                 lasers.remove(i);
+                if ((alien2.getXvalue() >= 1920 + 400)) {
+                    alien6.setXvalue(alien2.getXvalue());
+                    if (alien6.getXvalue() <= 1000) {
+                        alien7.setXvalue(alien2.getXvalue());
+                    }
+                } else {
+                    alien6.setXvalue(alien2.getXvalue()+100);
+                    alien7.setXvalue(alien2.getXvalue()+400);
+                }
                 alien2.setDead(true);
                 i--;
             }
@@ -260,6 +278,15 @@ public class GraphicsPanel extends JPanel implements KeyListener, MouseListener,
                 player.collectCoin();
                 dead = true;
                 lasers.remove(i);
+                if ((alien3.getXvalue() >= 1920 + 400)) {
+                    alien8.setXvalue(alien3.getXvalue());
+                    if (alien8.getXvalue() <= 1000) {
+                        alien9.setXvalue(alien3.getXvalue());
+                    }
+                } else {
+                    alien8.setXvalue(alien3.getXvalue()+100);
+                    alien9.setXvalue(alien3.getXvalue()+400);
+                }
                 alien3.setDead(true);
                 i--;
             }
